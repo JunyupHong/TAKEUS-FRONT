@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoginKakao, LoginNaver } from 'components';
 import { GoogleLogin } from 'react-google-login';
-import { useHistory } from 'react-router';
 import LoginImg from 'assets/img/img_Login.png';
 import GoogleIcon from 'assets/img/ic_google.svg';
 import { ReactComponent as Title } from 'assets/icon/ic_logo_wordmark_middle.svg';
 import { ReactComponent as SubTitle } from 'assets/icon/Group.svg';
-
+//loginState
+import { LoginDispatchContext } from 'lib/context/context';
 //api
 import { postToken } from 'lib/api/sample';
 
@@ -99,18 +100,21 @@ const Styled = {
 
 const LoginLayer = () => {
   const history = useHistory();
+  const setIsLogin = useContext(LoginDispatchContext);
+
   const handleSuccess = async (token, social) => {
     const data = await postToken(token, social);
     localStorage.setItem('email', data.email);
     localStorage.setItem('token', data.accessToken);
     localStorage.setItem('ID', data.id);
+    localStorage.setItem('issuedAt', data.issuedAt);
+
+    setIsLogin(true);
     history.push('/');
   };
 
   // 로그인 실패 시
-  const handleFailure = (error) => {
-    console.log(error);
-  };
+  const handleFailure = () => {};
 
   return (
     <Styled.Wrapper>

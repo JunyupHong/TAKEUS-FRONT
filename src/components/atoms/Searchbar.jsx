@@ -66,13 +66,12 @@ const Searchbar = () => {
     (async () => {
       try {
         const { data } = await getCountry();
-        console.log(data);
 
         setCountry(Object.keys(data).splice(1));
         setAllAirport(data);
       } catch (e) {
         // TODO
-        // error 처리 필요!
+        // 에러처리 필요
         console.error(e);
       }
     })();
@@ -88,11 +87,7 @@ const Searchbar = () => {
     <>
       <Search.Container>
         <div className="dropdown dropdown__country">
-          <DropdownCountry
-            currCountry={currCountry}
-            setCurrCountry={setCurrCountry}
-            country={country}
-          />
+          <DropdownCountry currCountry={currCountry} setCurrCountry={setCurrCountry} country={country} />
         </div>
         <div className="dropdown dropdown__airport">
           <DropdownAirport
